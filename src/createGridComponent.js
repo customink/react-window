@@ -68,6 +68,7 @@ export type Props<T> = {|
   columnCount: number,
   columnWidth: itemSize,
   direction: Direction,
+  footer: string,
   height: number,
   initialScrollLeft?: number,
   initialScrollTop?: number,
@@ -398,6 +399,7 @@ export default function createGridComponent({
         className,
         columnCount,
         direction,
+        footer,
         height,
         innerRef,
         innerElementType,
@@ -443,6 +445,23 @@ export default function createGridComponent({
             );
           }
         }
+      }
+
+      if (footer && rowStopIndex === rowCount - 1) {
+        items.push(
+          createElement(footer, {
+            columnIndex: 0,
+            data: itemData,
+            isScrolling: useIsScrolling ? isScrolling : undefined,
+            key: itemKey({
+              columnIndex: 0,
+              data: itemData,
+              rowIndex: rowCount,
+            }),
+            rowIndex: rowCount,
+            style: this._getItemStyle(rowCount, 0),
+          })
+        );
       }
 
       // Read this value AFTER items have been created,
